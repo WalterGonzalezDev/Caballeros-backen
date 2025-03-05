@@ -1,4 +1,5 @@
 import db from '../../config/db.js';
+import logger from '../../config/logger.js';
 
 export default class UserRepository {
   async findByEmail(email) {
@@ -6,6 +7,7 @@ export default class UserRepository {
       const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
       return rows[0] || null;
     } catch (error) {
+      logger.error(`Error finding user by email: ${error.message}`);
       throw new Error(`Error finding user by email: ${error.message}`);
     }
   }
@@ -19,6 +21,7 @@ export default class UserRepository {
       );
       return result.insertId;
     } catch (error) {
+      logger.error(`Error creating user: ${error.message}`);
       throw new Error(`Error creating user: ${error.message}`);
     }
   }
