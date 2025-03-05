@@ -19,4 +19,16 @@ export default class UserController {
       res.status(400).json({ error: error.message });
     }
   }
+  async login(req, res) {
+    try {
+      const { email, password } = req.body;
+      const user = await this.userService.loginUser({ email, password });
+      const token = generateToken(user);
+      logger.info(`User logged in: ${email}`);
+      res.status(200).json({ user, token });
+    } catch (error) {
+      logger.error(`Error logging in: ${error.message}`);
+      res.status(400).json({ error: error.message });
+    }
+  }
 }
