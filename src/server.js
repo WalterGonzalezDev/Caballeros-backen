@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.js';
 import cors from 'cors';
+import logger from './config/logger.js';
 
 dotenv.config();
 
@@ -14,5 +15,5 @@ app.use(express.json());
 app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  logger.info(`Server running on port ${PORT}`);
 });
