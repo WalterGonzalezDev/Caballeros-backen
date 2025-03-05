@@ -23,4 +23,22 @@ export default class UserService {
       throw new Error(`Error registering user: ${error.message}`);
     }
   }
+  async loginUser({ email, password }) {
+    try {
+      const user = await this.userRepository.findByEmail(email);
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      const isValidPassword = await user.comparePassword(password);
+      if (!isValidPassword) {
+        throw new Error('Invalid password');
+      }
+
+      return user;
+    } catch (error) {
+      logger.error(`Error logging in user: ${error.message}`);
+      throw new Error(`Error logging in user: ${error.message}`);
+    }
+  }
 }
