@@ -1,5 +1,6 @@
 import UserService from '../services/UserService.js';
-import looger from '../../config/logger.js';
+import { generateToken } from '../../utils/auth.js';
+import logger from '../../config/logger.js';
 
 export default class UserController {
   constructor() {
@@ -10,7 +11,9 @@ export default class UserController {
     try {
       const { name, email, password, roleId } = req.body;
       const user = await this.userService.registerUser({ name, email, password, roleId });
-      res.status(201).json(user);
+      const token = generateToken(user);
+      logger.info(`User registered: ${email}`);
+      res.status(201).json({ user, token });
     } catch (error) {
       logger.error(`Error registering user: ${error.message}`);
       res.status(400).json({ error: error.message });
