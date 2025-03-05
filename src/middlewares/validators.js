@@ -1,6 +1,6 @@
 import { body, validationResult } from "express-validator";
 
-export const validateSignup = [
+export const validateRegister = [
     body("name").notEmpty().withMessage("El nombre es obligatorio"),
     body("email").isEmail().withMessage("El email es obligatorio"),
     body("password").isLength({ min: 6 }).withMessage("La contraseña debe tener al menos 8 caracteres"),
