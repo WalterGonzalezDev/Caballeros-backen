@@ -1,4 +1,5 @@
 import UserService from '../services/UserService.js';
+import looger from '../../config/logger.js';
 
 export default class UserController {
   constructor() {
@@ -11,6 +12,7 @@ export default class UserController {
       const user = await this.userService.registerUser({ name, email, password, roleId });
       res.status(201).json(user);
     } catch (error) {
+      logger.error(`Error registering user: ${error.message}`);
       res.status(400).json({ error: error.message });
     }
   }
