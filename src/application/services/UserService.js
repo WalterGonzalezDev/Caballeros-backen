@@ -9,6 +9,7 @@ export default class UserService {
   }
 
   async registerUser({ name, email, password, roleId }) {
+    logger.info('roleId: ', roleId);
     try {
       const existingUser = await this.userRepository.findByEmail(email);
       if (existingUser) {
@@ -23,6 +24,7 @@ export default class UserService {
       throw new Error(`Error registering user: ${error.message}`);
     }
   }
+
   async loginUser({ email, password }) {
     try {
       const user = await this.userRepository.findByEmail(email);
@@ -30,9 +32,9 @@ export default class UserService {
         throw new Error('User not found');
       }
 
-      const isValidPassword = await user.comparePassword(password);
-      if (!isValidPassword) {
-        throw new Error('Invalid password');
+      const isPasswordValid = await comparePassword(password, user.password);
+      if (!isPasswordValid) {
+        throw new Error('Invalid credentials');
       }
 
       return user;
