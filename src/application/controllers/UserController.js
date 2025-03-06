@@ -8,6 +8,7 @@ export default class UserController {
   }
 
   async register(req, res) {
+    logger.info('req: ', req.body);
     try {
       const { name, email, password, roleId } = req.body;
       const user = await this.userService.registerUser({ name, email, password, roleId });
@@ -19,6 +20,7 @@ export default class UserController {
       res.status(400).json({ error: error.message });
     }
   }
+
   async login(req, res) {
     try {
       const { email, password } = req.body;
@@ -27,7 +29,7 @@ export default class UserController {
       logger.info(`User logged in: ${email}`);
       res.status(200).json({ user, token });
     } catch (error) {
-      logger.error(`Error logging in: ${error.message}`);
+      logger.error(`Error logging in user: ${error.message}`);
       res.status(400).json({ error: error.message });
     }
   }
