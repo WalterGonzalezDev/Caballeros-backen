@@ -13,6 +13,7 @@ export default class UserRepository {
   }
 
   async create(user) {
+    logger.info('Creating user: ', user);
     try {
       const { name, email, password, roleId } = user;
       const [result] = await db.query(
