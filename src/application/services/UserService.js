@@ -1,6 +1,6 @@
 import UserRepository from '../../infrastructure/repositories/UserRepository.js';
 import User from '../../domain/User.js';
-import { hashPassword } from '../../utils/auth.js';
+import { hashPassword, comparePassword } from '../../utils/auth.js';
 import logger from '../../config/logger.js';
 
 export default class UserService {
@@ -9,7 +9,6 @@ export default class UserService {
   }
 
   async registerUser({ name, email, password, roleId }) {
-    logger.info('roleId: ', roleId);
     try {
       const existingUser = await this.userRepository.findByEmail(email);
       if (existingUser) {
