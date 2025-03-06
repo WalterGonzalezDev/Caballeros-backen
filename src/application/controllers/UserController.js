@@ -8,7 +8,6 @@ export default class UserController {
   }
 
   async register(req, res) {
-    logger.info('req: ', req.body);
     try {
       const { name, email, password, roleId } = req.body;
       const user = await this.userService.registerUser({ name, email, password, roleId });
